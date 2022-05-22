@@ -1,95 +1,77 @@
 import * as React from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-function DetailsScreen() {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Details!</Text>
-        </View>
-    );
-}
-
-function HomeScreen({ navigation }) {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <FontAwesome
-                name="home" 
-                size={23} 
-                color="blue" ></FontAwesome>
-            <Text>Home screen</Text>
-            <Button
-                title="Go to Details"
-                onPress={() => navigation.navigate('Details')}
-            />
-        </View>
-    );
-}
-
-function SettingsScreen({ navigation }) {
-    return (
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>Settings screen</Text>
-            <Button
-                title="Go to Details"
-                onPress={() => navigation.navigate('Details')}
-            />
-        </View>
-    );
-}
-
-const HomeStack = createNativeStackNavigator();
-
-function HomeStackScreen() {
-    return (
-        <HomeStack.Navigator>
-            <HomeStack.Screen name="Home" component={HomeScreen} />
-            <HomeStack.Screen name="Details" component={DetailsScreen} />
-        </HomeStack.Navigator>
-    );
-}
-
-const SettingsStack = createNativeStackNavigator();
-
-function SettingsStackScreen() {
-    return (
-        <SettingsStack.Navigator>
-            <SettingsStack.Screen name="Settings" component={SettingsScreen} />
-            <SettingsStack.Screen name="Details" component={DetailsScreen} />
-        </SettingsStack.Navigator>
-    );
-}
+import Perfil from './Perfil';
+import Busca from './Busca';
+import Produtos from './Produtos';
+import Servicos from './Servicos';
+import Cadastrar from './Cadastrar';
 
 const Tab = createBottomTabNavigator();
 
 export default function Principal() {
     return (
         <Tab.Navigator 
-            screenOptions={({ route }) => ({ 
-                headerShown: false,
-                tabBarIcon: ({ focused, color, size }) => {
-                    let iconName;
-        
-                    if (route.name === 'HomeScreen') {
-                      iconName = focused
-                        ? 'ios-information-circle'
-                        : 'ios-information-circle-outline';
-                    } else if (route.name === 'Settings') {
-                      iconName = focused ? 'ios-list' : 'ios-list';
-                    }
-        
-                    // You can return any component that you like here!
-                    return <Ionicons name={iconName} size={size} color={color} />;
-                  },
-                  tabBarActiveTintColor: 'tomato',
-                  tabBarInactiveTintColor: 'gray',
-            })}>
-            <Tab.Screen name="HomeScreen" component={HomeStackScreen} />
-            <Tab.Screen name="Settings" component={SettingsStackScreen} />
+            initialRouteName="Busca"
+            tabBarOptions={{
+                activeTintColor: '#e91e63',
+            }}>
+            <Tab.Screen
+                name="Busca"
+                component={Busca}
+                options={{
+                tabBarLabel: 'Buscar',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="account-search" color={color} size={size} />
+                ),
+                }}
+            />
+
+            <Tab.Screen
+                name="Produtos"
+                component={Produtos}
+                options={{
+                tabBarLabel: 'Produtos',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="shopping" color={color} size={size} />
+                ),
+                }}
+            />
+            <Tab.Screen
+                name="Serviços"
+                component={Servicos}
+                options={{
+                tabBarLabel: 'Serviços',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="tools" color={color} size={size} />
+                ),
+                }}
+            />
+            <Tab.Screen
+                name="Cadastrar"
+                component={Cadastrar}
+                options={{
+                tabBarLabel: 'Cadastrar',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="plus-circle" color={color} size={size} />
+                ),
+                }}
+            />
+            <Tab.Screen
+                name="Perfil"
+                component={Perfil}
+                options={{
+                tabBarLabel: 'Perfil',
+                tabBarIcon: ({ color, size }) => (
+                    <MaterialCommunityIcons name="account" color={color} size={size} />
+                ),
+                }}
+            />
         </Tab.Navigator>
     );
 }
